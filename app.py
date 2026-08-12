@@ -1,45 +1,29 @@
 import streamlit as st
 import requests
 
-# Page settings
 st.set_page_config(
     page_title="Food Delivery App",
     page_icon="🍔"
 )
 
-# Title
 st.title("🍔 Food Delivery App")
 st.write("Welcome to our Food Delivery App!")
 
-# Backend API URL
-backend_url = "https://food-delivery-xc0p.onrender.com"
+backend_url = "https://food-delivery-1-p2kg.onrender.com"
 
-# Get food data from backend
 try:
-    response = requests.get(backend_url)
+    response = requests.get(f"{backend_url}/foods", timeout=30)
+    response.raise_for_status()
 
-    if response.status_code == 200:
-        foods = response.json()
+    foods = response.json()
 
-        st.subheader("🍽️ Available Food")
+    st.subheader("Available Food")
 
-        for food in foods:
-            st.write(f"### {food['name']}")
-            st.write(f"💰 Price: ₹{food['price']}")
-
-            st.button(
-                "Add to Cart",
-                key=f"cart_{food['id']}"
-            )
-
-            st.divider()
-
-    else:
-        st.error(
-            f"Backend returned an error. Status code: {response.status_code}"
-        )
+    for food in foods:
+        st.write(f"### {food['name']}")
+        st.write(f"Price: ₹{food['price']}")
+        st.button("Add to Cart", key=food["id"])
 
 except requests.exceptions.RequestException as e:
-    st.error("❌ Cannot connect to FastAPI backend.")
-    st.write("Please check whether your backend URL is working.")
+    st.error("Unable to connect to the backend.")
     st.write(e)
