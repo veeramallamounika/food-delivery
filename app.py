@@ -12,7 +12,7 @@ st.title("🍔 Food Delivery App")
 st.write("Welcome to our Food Delivery App!")
 
 # Backend API URL
-backend_url = "https://food-delivery-2-pr16.onrender.com/foods"
+backend_url = "https://food-delivery-xc0p.onrender.com"
 
 # Get food data from backend
 try:
